@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { candidates } from "@/db/schema";
+import { candidates, education } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import * as fs from "fs";
 import * as pdf from "pdfjs";
@@ -116,19 +116,39 @@ export async function generate(candId: number) {
   row3a.cell("Obtained Marks", { ...txt_ty });
   row3a.cell("Marks Per(%)", { ...txt_ty });
 
-  // for (let i = 0; i < candidate.education.length; i++) {
-  //   let row3i = table3.row();
-  //   row3i.cell(candidate.education[i].qualification.toUpperCase(), {
-  //     ...txt_ty,
-  //   });
-  //   row3i.cell(candidate.education[i].board.toUpperCase(), { ...txt_ty });
-  //   row3i.cell(candidate.education[i].year.toUpperCase(), { ...txt_ty });
-  //   row3i.cell(candidate.education[i].ms_no.toUpperCase(), { ...txt_ty });
-  //   row3i.cell(candidate.education[i].roll_no.toUpperCase(), { ...txt_ty });
-  //   row3i.cell(`${candidate.education[i].tot}`, { ...txt_ty });
-  //   row3i.cell(`${candidate.education[i].obt}`, { ...txt_ty });
-  //   row3i.cell(`${candidate.education[i].per}`, { ...txt_ty });
-  // }
+  const educationList = [];
+  if (candidate.highSchool) {
+    const hs = await db.query.education.findFirst({
+      where: eq(education.id, candidate.highSchool),
+    });
+    educationList.push(hs);
+  }
+  if (candidate.intermediate) {
+    const inter = await db.query.education.findFirst({
+      where: eq(education.id, candidate.intermediate),
+    });
+    educationList.push(inter);
+  }
+  if (candidate.graduation) {
+    const gr = await db.query.education.findFirst({
+      where: eq(education.id, candidate.graduation),
+    });
+    educationList.push(gr);
+  }
+
+  for (let i = 0; i < educationList.length; i++) {
+    let row3i = table3.row();
+    row3i.cell(educationList[i]?.qualification?.toUpperCase(), {
+      ...txt_ty,
+    });
+    row3i.cell(educationList[i]?.board?.toUpperCase(), { ...txt_ty });
+    row3i.cell(`${educationList[i]?.year}`, { ...txt_ty });
+    row3i.cell(educationList[i]?.marksheetNumber?.toUpperCase(), { ...txt_ty });
+    row3i.cell(educationList[i]?.rollNo?.toUpperCase(), { ...txt_ty });
+    row3i.cell(`${educationList[i]?.total}`, { ...txt_ty });
+    row3i.cell(`${educationList[i]?.obtained}`, { ...txt_ty });
+    row3i.cell(`${educationList[i]?.percentage}`, { ...txt_ty });
+  }
   const table4 = doc.table({
     widths: [100, null, 100, null],
     borderWidth: 0.2,
@@ -194,9 +214,10 @@ export async function generate(candId: number) {
   const photoName = candidate.photo || "";
   const profileImage = await getImage(photoName);
   const img_profile = new pdf.Image(profileImage);
-  const img_sig = new pdf.Image(
-    fs.readFileSync("public/images/1575644620195.jpeg")
-  );
+
+  const sigName = candidate.signature || "";
+  const sigImage = await getImage(sigName);
+  const img_sig = new pdf.Image(sigImage);
   const row6b = table6.row();
   row6b.cell({ ...txt_ty }).image(img_profile, { align: "center", height: 90 });
   row6b.cell({ ...txt_ty }).image(img_sig, { align: "center", height: 90 });

@@ -31,7 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar as CalendarIcon, Loader2 } from "lucide-react";
 import { saveRegistration } from "@/app/_actions";
 
 import { Calendar } from "@/components/ui/calendar";
@@ -54,6 +54,7 @@ type ImageProps = {
 
 const RegistrationForm = () => {
   const [photo, setPhoto] = useState<string | undefined>();
+  const [loading, setLoading] = useState(false);
   const [signature, setSignature] = useState<string | undefined>();
   const { toast } = useToast();
   const params = useParams();
@@ -107,12 +108,14 @@ const RegistrationForm = () => {
   // console.log(form.watch());
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    setLoading(true);
     if (!signature || !photo) {
       toast({
         variant: "destructive",
         title: "Signature and Photograph required please upload",
         description: "There was a problem with your request.",
       });
+      setLoading(false);
       return;
     } else {
       data.signature = signature;
@@ -127,6 +130,8 @@ const RegistrationForm = () => {
         title: "Something went wrong",
         description: "There was a problem with your request.",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -714,7 +719,11 @@ const RegistrationForm = () => {
 
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
                 <div className="flex flex-wrap">
-                  <Button type="submit">Submit</Button>
+                  {loading ? (
+                    <Loader2 />
+                  ) : (
+                    <Button type="submit">Submit</Button>
+                  )}
                 </div>
               </form>
             </FormProvider>
