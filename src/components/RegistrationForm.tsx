@@ -230,7 +230,7 @@ const RegistrationForm = () => {
                       name="motherName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Mother's Name</FormLabel>
+                          <FormLabel>Mothers Name</FormLabel>
                           <FormControl>
                             <Input {...field} />
                           </FormControl>
@@ -279,7 +279,7 @@ const RegistrationForm = () => {
                       name="fatherName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Father's Name</FormLabel>
+                          <FormLabel>Fathers Name</FormLabel>
                           <FormControl>
                             <Input {...field} />
                           </FormControl>

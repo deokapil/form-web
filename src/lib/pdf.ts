@@ -232,12 +232,13 @@ export async function generate(candId: number) {
   const response = await utapi.uploadFiles(new File([blob], "filename.pdf"));
 
   if (response.data) {
-    const updatedUserFile: { updatedId: number }[] = await db
-      .update(candidates)
-      .set({ fileUrl: response.data.url })
-      .where(eq(candidates.id, candId))
-      .returning({ updatedId: candidates.id, fileUrl: candidates.fileUrl });
-    return updatedUserFile;
+    const updatedUserFile: { updatedId: number; fileUrl: string | null }[] =
+      await db
+        .update(candidates)
+        .set({ fileUrl: response.data.url })
+        .where(eq(candidates.id, candId))
+        .returning({ updatedId: candidates.id, fileUrl: candidates.fileUrl });
+    return response.data.url;
   }
   // await doc.end();
 }

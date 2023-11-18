@@ -136,5 +136,6 @@ export async function saveRegistration(
 }
 
 export async function generatePDF(candId: string) {
-  await generate(parseInt(candId));
+  const link = await generate(parseInt(candId));
+  return link;
 }
