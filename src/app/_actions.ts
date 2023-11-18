@@ -132,7 +132,6 @@ export async function saveRegistration(
     .insert(candidates)
     .values(cand)
     .returning({ id: candidates.id });
-  console.log(cand_id);
   return cand_id[0];
 }
 

@@ -120,7 +120,6 @@ const RegistrationForm = () => {
     }
     try {
       const cand = await saveRegistration(data, params.collegeSlug as string);
-      console.log(cand);
       router.push(`/${params.collegeSlug}/candidate/${cand.id}`);
     } catch (e) {
       toast({

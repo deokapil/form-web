@@ -230,7 +230,6 @@ export async function generate(candId: number) {
 
   const utapi = new UTApi();
   const response = await utapi.uploadFiles(new File([blob], "filename.pdf"));
-  console.log(response);
 
   if (response.data) {
     const updatedUserFile: { updatedId: number }[] = await db

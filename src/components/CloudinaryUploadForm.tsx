@@ -16,13 +16,11 @@ const CloudinaryUploadForm = ({ setPhoto }: Props) => {
       const selectedFile = files[0];
       // upload files to cloudinary and return public url
       setLoading(true);
-      console.log("one");
       // const allowedTypes = ["image/jpeg", "image/png"];
       // if (!allowedTypes.includes(selectedFile.type)) {
       // ("Only JPEG, PNG, and GIF images are allowed.");
       const file = files[0];
       if (!file) return;
-      console.log("two");
 
       // get a signature using server action
       const { timestamp, signature } = await getSignature();
@@ -44,7 +42,6 @@ const CloudinaryUploadForm = ({ setPhoto }: Props) => {
       formData.append("timestamp", `${timestamp}`);
       formData.append("folder", "next");
 
-      console.log("threee");
       const endpoint = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_URL;
       if (!endpoint) {
         return;

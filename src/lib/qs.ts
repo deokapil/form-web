@@ -8,12 +8,10 @@ export const getCollegeList = async () => {
 };
 
 export const getCollegeBySlug = async (slug: string) => {
-  console.log(slug);
   const collegeList = await db
     .select()
     .from(colleges)
     .where(eq(colleges.slug, slug));
-  console.log(collegeList);
   return collegeList[0];
 };
 
