@@ -19,6 +19,13 @@ const getImage = async (imageUrl: string) => {
 };
 
 export async function generate(candId: number) {
+  const env = process.env.NODE_ENV;
+
+  let pubdir = `public`;
+  if (env == "production") {
+    pubdir = `${__dirname}/../../../public`;
+    // do something
+  }
   const candidate = await db.query.candidates.findFirst({
     where: eq(candidates.id, candId),
   });
@@ -55,7 +62,7 @@ export async function generate(candId: number) {
       header = college.logo || "/images/header.jpg";
     }
   }
-  const img1 = new pdf.Image(fs.readFileSync(`public${header}`));
+  const img1 = new pdf.Image(fs.readFileSync(`${pubdir}${header}`));
   doc.image(img1, {
     height: 95,
     align: "center",
@@ -246,7 +253,7 @@ export async function generate(candId: number) {
     backgroundColor: 0x333333,
   });
 
-  const img2 = new pdf.Image(fs.readFileSync("public/images/micro.jpg"));
+  const img2 = new pdf.Image(fs.readFileSync(`${pubdir}/images/micro.jpg`));
   doc.image(img2, {
     height: 95,
     align: "center",
@@ -282,5 +289,5 @@ export async function generate(candId: number) {
         .returning({ updatedId: candidates.id, fileUrl: candidates.fileUrl });
     return response.data.url;
   }
-  // await doc.end();
+  await doc.end();
 }
