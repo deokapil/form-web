@@ -94,7 +94,7 @@ export async function saveRegistration(
     .returning({ intermediate: education.id });
 
   const gr_edu = insertEduSchema.parse({
-    qualification: "High School or Equivalent",
+    qualification: "Graduation",
     board: gr_board,
     marksheetNumber: gr_marksheetNo,
     obtained: parseInt(gr_obtained),
@@ -116,6 +116,7 @@ export async function saveRegistration(
     rest;
 
   const college = await getCollegeBySlug(collegeSlug);
+  const dateFormat = process.env.DB_DATE_STYLE;
   const cand = insertUserSchema.parse({
     dateOfBirth: format(dateOfBirth, "MM-dd-yyyy"),
     txnDate: txnDate ? format(txnDate, "MM-dd-yyyy") : null,
@@ -138,4 +139,9 @@ export async function saveRegistration(
 export async function generatePDF(candId: string) {
   const link = await generate(parseInt(candId));
   return link;
+}
+
+export async function getCollege(slug: string) {
+  const college = await getCollegeBySlug(slug);
+  return college;
 }

@@ -48,7 +48,9 @@ export const registerSchema = z.object({
   hs_obtained: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
     message: "Please check the value should be Integer",
   }),
-  hs_percentage: z.string(),
+  hs_percentage: z.string().refine((val) => checkPercent(val), {
+    message: "Value should be of decimal type 2 decimal places e.g. 80.45",
+  }),
   in_board: z.string().optional(),
   in_year: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
     message: "Please check the value should be Integer",
@@ -61,7 +63,9 @@ export const registerSchema = z.object({
   in_obtained: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
     message: "Please check the value should be Integer",
   }),
-  in_percentage: z.string(),
+  in_percentage: z.string().refine((val) => checkPercent(val), {
+    message: "Value should be of decimal type 2 decimal places e.g. 80.45",
+  }),
 
   gr_board: z.string().optional(),
   gr_year: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
@@ -75,8 +79,20 @@ export const registerSchema = z.object({
   gr_obtained: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
     message: "Please check the value should be Integer",
   }),
-  gr_percentage: z.string(),
+  gr_percentage: z.string().refine((val) => checkPercent(val), {
+    message: "Value should be of decimal type 2 decimal places e.g. 80.45",
+  }),
 });
+
+const checkPercent = (val: string) => {
+  const strVal = parseFloat(val);
+  const valsplit = val.split(".");
+  let test = true;
+  if (val.split(".").length > 1 && val.split(".")[1].length > 2) {
+    test = false;
+  }
+  return !Number.isNaN(strVal) && strVal < 100 && test;
+};
 
 export const GENDER_CHOICES = [
   { value: "MALE", display: "Male" },

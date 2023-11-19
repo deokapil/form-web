@@ -1,9 +1,11 @@
 import { db } from "@/db";
-import { candidates, education } from "@/db/schema";
+import { candidates, colleges, education } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import * as fs from "fs";
 import * as pdf from "pdfjs";
 import { UTApi } from "uploadthing/server";
+import { generateRandomTime } from "./sutils";
+import { CATEGORY_CHOICES } from "@/validators/registration";
 
 interface FileEsque extends Blob {
   name: string;
@@ -39,17 +41,23 @@ export async function generate(candId: number) {
 
   const doc = new pdf.Document({
     font: require("pdfjs/font/Helvetica"),
-    padding: 30,
+    padding: 20,
   });
 
   // doc.pipe(fs.createWriteStream("output.pdf"));
 
-  // render something onto the document
-  // uttar-pradesh-government-logo.png
-
-  const img1 = new pdf.Image(fs.readFileSync("public/images/header.jpg"));
+  let header = "/images/header.jpg";
+  if (candidate.collegeId) {
+    const college = await db.query.colleges.findFirst({
+      where: eq(colleges.id, candidate.collegeId),
+    });
+    if (college) {
+      header = college.logo || "/images/header.jpg";
+    }
+  }
+  const img1 = new pdf.Image(fs.readFileSync(`public${header}`));
   doc.image(img1, {
-    height: 85,
+    height: 95,
     align: "center",
   });
 
@@ -64,7 +72,8 @@ export async function generate(candId: number) {
     ...txt_ty,
     colspan: 2,
   });
-  row1.cell("Cell 3", { ...txt_ty, backgroundColor: 0xeeeeee });
+
+  row1.cell("", { ...txt_ty, backgroundColor: 0xeeeeee });
 
   const table1 = doc.table({
     widths: [80, null, 80, null],
@@ -82,15 +91,23 @@ export async function generate(candId: number) {
 
   const row2b = table1.row();
   row2b.cell("Mother Name", { ...txt_ty });
-  row2b.cell(candidate.motherName, { ...txt_ty });
+  row2b.cell(candidate.motherName.toUpperCase(), { ...txt_ty });
   row2b.cell("Gender", { ...txt_ty });
   row2b.cell(candidate.gender.toUpperCase(), { ...txt_ty });
 
   const row2c = table1.row();
   row2c.cell("Father Name", { ...txt_ty });
   row2c.cell(candidate.fatherName.toUpperCase(), { ...txt_ty });
+
+  let categoryDisplay = "GENERAL";
+  for (let k = 0; k < CATEGORY_CHOICES.length; k++) {
+    if (candidate.category == CATEGORY_CHOICES[k]["value"]) {
+      categoryDisplay = CATEGORY_CHOICES[k]["display"];
+    }
+  }
+
   row2c.cell("Category", { ...txt_ty });
-  row2c.cell(candidate.category.toUpperCase(), { ...txt_ty });
+  row2c.cell(categoryDisplay.toUpperCase(), { ...txt_ty });
 
   const row2d = table1.row();
   row2d.cell("Sub Category", { ...txt_ty });
@@ -241,16 +258,20 @@ export async function generate(candId: number) {
   });
   const row7a = table7.row();
   row7a.cell(`Submission Date: ${candidate.submissionDate}`, { ...txt_ty });
-  row7a.cell(`Print Date: ${candidate.printDate}`, { ...txt_ty });
+  row7a.cell(`Print Date: ${candidate.printDate} ${generateRandomTime()}`, {
+    ...txt_ty,
+  });
 
   const row7b = table7.row();
-  row7b.cell(`${candidate.ac_num}`, { ...txt_ty, colspan: 2 });
+  row7b.cell(candidate.ac_num || "", { ...txt_ty, colspan: 2 });
 
   const buf = await doc.asBuffer();
   const blob = new Blob([buf], { type: "application/pdf" });
 
   const utapi = new UTApi();
-  const response = await utapi.uploadFiles(new File([blob], "filename.pdf"));
+  const response = await utapi.uploadFiles(
+    new File([blob], `${candidate.registrationNo}.pdf`)
+  );
 
   if (response.data) {
     const updatedUserFile: { updatedId: number; fileUrl: string | null }[] =

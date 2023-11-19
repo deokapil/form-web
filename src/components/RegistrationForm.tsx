@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/select";
 
 import { Calendar as CalendarIcon, Loader2 } from "lucide-react";
-import { saveRegistration } from "@/app/_actions";
+import { getCollege, saveRegistration } from "@/app/_actions";
 
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -46,6 +46,7 @@ import Education from "./Education";
 import CloudinaryUploadForm from "./CloudinaryUploadForm";
 import { CldImage } from "next-cloudinary";
 import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
 
 type ImageProps = {
   file: File;
@@ -55,6 +56,7 @@ type ImageProps = {
 const RegistrationForm = () => {
   const [photo, setPhoto] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
+  const [college, setCollege] = useState<CollegeType | undefined>();
   const [signature, setSignature] = useState<string | undefined>();
   const { toast } = useToast();
   const params = useParams();
@@ -107,6 +109,12 @@ const RegistrationForm = () => {
   });
   // console.log(form.watch());
 
+  useEffect(() => {
+    getCollege(params.collegeSlug as string).then((result) => {
+      setCollege(result);
+    });
+  }, []);
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
     if (!signature || !photo) {
@@ -138,7 +146,17 @@ const RegistrationForm = () => {
   return (
     <section className=" py-1 bg-blueGray-50">
       <div className="w-full lg:w-8/12 px-4 mx-auto mt-6">
-        <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-0">
+        <div className="flex justify-center">
+          {college?.logo && (
+            <Image
+              src={college.logo}
+              height={100}
+              width={500}
+              alt="Picture of the author"
+            />
+          )}
+        </div>
+        <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-100 border-sky-100">
           <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
             <FormProvider {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>

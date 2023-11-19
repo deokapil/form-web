@@ -27,8 +27,9 @@ const DashboardPage = async ({ params }: Props) => {
       <TableHeader>
         <TableRow>
           <TableHead>Name</TableHead>
-          <TableHead>Add candidate</TableHead>
-          <TableHead>Dashboard</TableHead>
+          <TableHead>Registration No</TableHead>
+          <TableHead>PDF</TableHead>
+          <TableHead>Generate</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -37,8 +38,15 @@ const DashboardPage = async ({ params }: Props) => {
             <TableCell className="font-medium">{cand.name}</TableCell>
             <TableCell>{cand.registrationNo}</TableCell>
             <TableCell>
+              {cand.fileUrl ? (
+                <Link href={cand.fileUrl}>Download PDF</Link>
+              ) : (
+                "Not Printed"
+              )}
+            </TableCell>
+            <TableCell>
               <Link href={`/${params.collegeSlug}/candidate/${cand.id}`}>
-                Download Pdf
+                Generate Pdf
               </Link>
             </TableCell>
           </TableRow>

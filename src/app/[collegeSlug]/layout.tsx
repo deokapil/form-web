@@ -18,7 +18,7 @@ const CollegeLayout = async ({
       <div className="h-[80px] fixed inset-y-0 w-full z-50">
         <Navbar college={college} />
       </div>
-      <main className="md:pl-56 pt-[80px] h-full">{children}</main>
+      <main className="px-6 pt-[80px] h-full">{children}</main>
     </div>
   );
 };

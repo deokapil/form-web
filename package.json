@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
+    "@neondatabase/serverless": "^0.6.0",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-select": "^2.0.0",
@@ -20,6 +21,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@types/formidable": "^3.4.5",
     "axios": "^1.6.2",
+    "barcode-generator": "^0.1.0",
     "class-variance-authority": "^0.7.0",
     "cloudinary": "^1.41.0",
     "clsx": "^2.0.0",
