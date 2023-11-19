@@ -1,7 +1,6 @@
 import { db } from "@/db";
 import { candidates, colleges, education } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import * as fs from "fs";
 import * as pdf from "pdfjs";
 import { UTApi } from "uploadthing/server";
 import { generateRandomTime } from "./sutils";
@@ -53,16 +52,20 @@ export async function generate(candId: number) {
 
   // doc.pipe(fs.createWriteStream("output.pdf"));
 
-  let header = "/images/header.jpg";
+  let header =
+    "https://res.cloudinary.com/dyaelt2me/image/upload/v1700366731/koyla/header_ua5s3s.jpg";
   if (candidate.collegeId) {
     const college = await db.query.colleges.findFirst({
       where: eq(colleges.id, candidate.collegeId),
     });
     if (college) {
-      header = college.logo || "/images/header.jpg";
+      header =
+        college.logo ||
+        "https://res.cloudinary.com/dyaelt2me/image/upload/v1700366731/koyla/header_ua5s3s.jpg";
     }
   }
-  const img1 = new pdf.Image(fs.readFileSync(`${pubdir}${header}`));
+  const headerImage = await getImage(header);
+  const img1 = new pdf.Image(headerImage);
   doc.image(img1, {
     height: 95,
     align: "center",
@@ -252,8 +255,11 @@ export async function generate(candId: number) {
     colspan: 2,
     backgroundColor: 0x333333,
   });
-
-  const img2 = new pdf.Image(fs.readFileSync(`${pubdir}/images/micro.jpg`));
+  const pramanImg = await getImage(
+    "https://res.cloudinary.com/dyaelt2me/image/upload/v1700366496/koyla/micro_en9u7t.jpg"
+  );
+  //  https://res.cloudinary.com/dyaelt2me/image/upload/v1700366496/koyla/micro_en9u7t.jpg
+  const img2 = new pdf.Image(pramanImg);
   doc.image(img2, {
     height: 95,
     align: "center",
