@@ -2,8 +2,9 @@ import { db } from "@/db";
 import { candidates, colleges, education } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import * as pdf from "pdfjs";
+import * as fs from "fs";
 import { UTApi } from "uploadthing/server";
-import { generateRandomTime } from "./sutils";
+import { convertDate, generateRandomTime } from "./sutils";
 import { CATEGORY_CHOICES } from "@/validators/registration";
 
 interface FileEsque extends Blob {
@@ -50,7 +51,7 @@ export async function generate(candId: number) {
     padding: 20,
   });
 
-  // doc.pipe(fs.createWriteStream("output.pdf"));
+  doc.pipe(fs.createWriteStream("output.pdf"));
 
   let header =
     "https://res.cloudinary.com/dyaelt2me/image/upload/v1700366731/koyla/header_ua5s3s.jpg";
@@ -97,7 +98,7 @@ export async function generate(candId: number) {
   row2a.cell("candidate Name", { ...txt_ty });
   row2a.cell(candidate.name.toUpperCase(), { ...txt_ty });
   row2a.cell("Date Of Birth", { ...txt_ty });
-  row2a.cell(candidate.dateOfBirth, { ...txt_ty });
+  row2a.cell(convertDate(candidate.dateOfBirth), { ...txt_ty });
 
   const row2b = table1.row();
   row2b.cell("Mother Name", { ...txt_ty });
@@ -225,7 +226,7 @@ export async function generate(candId: number) {
   row5b.cell("Amount", { ...txt_ty });
   row5b.cell(`${candidate.amount}`, { ...txt_ty });
   row5b.cell("Date of Transaction", { ...txt_ty });
-  row5b.cell(candidate.txnDate ? candidate.txnDate : "", { ...txt_ty });
+  row5b.cell(convertDate(candidate.txnDate), { ...txt_ty });
 
   const table6 = doc.table({
     widths: [null, null],
@@ -270,30 +271,35 @@ export async function generate(candId: number) {
     borderWidth: 0.2,
   });
   const row7a = table7.row();
-  row7a.cell(`Submission Date: ${candidate.submissionDate}`, { ...txt_ty });
-  row7a.cell(`Print Date: ${candidate.printDate} ${generateRandomTime()}`, {
+  row7a.cell(`Submission Date: ${convertDate(candidate.submissionDate)}`, {
     ...txt_ty,
   });
+  row7a.cell(
+    `Print Date: ${convertDate(candidate.printDate)} ${generateRandomTime()}`,
+    {
+      ...txt_ty,
+    }
+  );
 
   const row7b = table7.row();
   row7b.cell(candidate.ac_num || "", { ...txt_ty, colspan: 2 });
 
-  const buf = await doc.asBuffer();
-  const blob = new Blob([buf], { type: "application/pdf" });
+  // const buf = await doc.asBuffer();
+  // const blob = new Blob([buf], { type: "application/pdf" });
 
-  const utapi = new UTApi();
-  const response = await utapi.uploadFiles(
-    new File([blob], `${candidate.registrationNo}.pdf`)
-  );
+  // const utapi = new UTApi();
+  // const response = await utapi.uploadFiles(
+  //   new File([blob], `${candidate.registrationNo}.pdf`)
+  // );
 
-  if (response.data) {
-    const updatedUserFile: { updatedId: number; fileUrl: string | null }[] =
-      await db
-        .update(candidates)
-        .set({ fileUrl: response.data.url })
-        .where(eq(candidates.id, candId))
-        .returning({ updatedId: candidates.id, fileUrl: candidates.fileUrl });
-    return response.data.url;
-  }
+  // if (response.data) {
+  //   const updatedUserFile: { updatedId: number; fileUrl: string | null }[] =
+  //     await db
+  //       .update(candidates)
+  //       .set({ fileUrl: response.data.url })
+  //       .where(eq(candidates.id, candId))
+  //       .returning({ updatedId: candidates.id, fileUrl: candidates.fileUrl });
+  //   return response.data.url;
+  // }
   await doc.end();
 }

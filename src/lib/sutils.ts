@@ -12,3 +12,14 @@ export function generateRandomTime() {
   }
   return `${zeroPad(hrs)}:${zeroPad(randomMin)} ${end}`;
 }
+
+export const convertDate = (dateString: string | null) => {
+  if (!dateString) {
+    return "";
+  }
+  const dateStringList = dateString.split("-");
+  if (dateStringList.length != 3) {
+    return "";
+  }
+  return `${dateStringList[2]}-${dateStringList[1]}-${dateStringList[0]}`;
+};
