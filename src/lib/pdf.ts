@@ -23,7 +23,7 @@ export async function generate(candId: number) {
 
   let pubdir = `public`;
   if (env == "production") {
-    pubdir = `${__dirname}/../../../public`;
+    pubdir = `${__dirname}/../../public`;
     // do something
   }
   const candidate = await db.query.candidates.findFirst({
