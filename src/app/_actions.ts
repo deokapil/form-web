@@ -8,7 +8,7 @@ import { db } from "@/db";
 import { candidates, education } from "@/db/schema";
 
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import { format } from "date-fns";
+import { format, parse } from "date-fns";
 import { eq } from "drizzle-orm";
 import { generate } from "@/lib/pdf";
 import { getCollegeBySlug } from "@/lib/qs";
@@ -112,12 +112,11 @@ export async function saveRegistration(
 
   const insertUserSchema = createInsertSchema(candidates);
   // convert all dated to string
-  const { dateOfBirth, printDate, ...rest1 } = rest;
+  const { printDate, ...rest1 } = rest;
 
   const college = await getCollegeBySlug(collegeSlug);
   const dateFormat = process.env.DB_DATE_STYLE;
   const cand = insertUserSchema.parse({
-    dateOfBirth: format(dateOfBirth, "MM-dd-yyyy"),
     printDate: format(printDate, "MM-dd-yyyy"),
     collegeId: college.id,
     ...rest1,

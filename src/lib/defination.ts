@@ -3,6 +3,7 @@ type CollegeType = {
   name: string | null;
   logo: string | null;
   slug: string | null;
+  collegeUrl: string | null;
 };
 
 type UploadFileResponse =

@@ -281,9 +281,6 @@ export async function generate(candId: number) {
     }
   );
 
-  const row7b = table7.row();
-  row7b.cell(candidate.ac_num || "", { ...txt_ty, colspan: 2 });
-
   const buf = await doc.asBuffer();
   const blob = new Blob([buf], { type: "application/pdf" });
 

@@ -1,11 +1,14 @@
+import { parse, isValid } from "date-fns";
 import { z } from "zod";
 
 export const registerSchema = z.object({
   registrationNo: z.string(),
   name: z.string().min(2).max(255),
-  dateOfBirth: z.date({
-    required_error: "A date of birth is required.",
-  }),
+  dateOfBirth: z
+    .string()
+    .refine((val) => isValid(parse(val, "dd-MM-yyyy", new Date())), {
+      message: "Correct format is dd-mm-yyyy e.g. 03-05-2011",
+    }),
   motherName: z.string(),
   fatherName: z.string(),
   gender: z.enum(["MALE", "FEMALE", "OTHERS"]),

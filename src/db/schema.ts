@@ -16,6 +16,7 @@ export const colleges = pgTable("colleges", {
   name: varchar("name", { length: 256 }),
   logo: text("image"),
   slug: text("slug"),
+  collegeUrl: text("college_url"),
 });
 
 export const users = pgTable("users", {
