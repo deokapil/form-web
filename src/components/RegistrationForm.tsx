@@ -79,11 +79,8 @@ const RegistrationForm = () => {
       state: "",
       pin: "",
       email: "",
-      registrationMode: "",
-      transaction_id: "",
       photo: "",
       signature: "",
-      amount: "",
       hs_board: "",
       hs_marksheetNo: "",
       hs_obtained: "",
@@ -491,108 +488,6 @@ const RegistrationForm = () => {
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
 
                 <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
-                  Registration Fee Details
-                </h6>
-                <div className="flex flex-wrap">
-                  <div className="w-full lg:w-6/12 px-4">
-                    <FormField
-                      control={form.control}
-                      name="registrationMode"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Payment Mode</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormDescription></FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <div className="w-full lg:w-6/12 px-4">
-                    <FormField
-                      control={form.control}
-                      name="transaction_id"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Transaction Id</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormDescription></FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <div className="w-full lg:w-6/12 px-4">
-                    <FormField
-                      control={form.control}
-                      name="amount"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Amount</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormDescription></FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <div className="w-full lg:w-6/12 px-4">
-                    <FormField
-                      control={form.control}
-                      name="txnDate"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-col">
-                          <FormLabel>Tranaction Date</FormLabel>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <FormControl>
-                                <Button
-                                  variant={"outline"}
-                                  className={cn(
-                                    "w-[240px] pl-3 text-left font-normal",
-                                    !field.value && "text-muted-foreground"
-                                  )}
-                                >
-                                  {field.value ? (
-                                    format(field.value, "PPP")
-                                  ) : (
-                                    <span>Pick a date</span>
-                                  )}
-                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                              </FormControl>
-                            </PopoverTrigger>
-                            <PopoverContent
-                              className="w-auto p-0"
-                              align="start"
-                            >
-                              <Calendar
-                                mode="single"
-                                selected={field.value}
-                                onSelect={field.onChange}
-                                disabled={(date) =>
-                                  date > new Date() ||
-                                  date < new Date("1900-01-01")
-                                }
-                                initialFocus
-                              />
-                            </PopoverContent>
-                          </Popover>
-                          <FormDescription></FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
-                <hr className="mt-6 border-b-1 border-blueGray-300" />
-                <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
                   Documents Upload
                 </h6>
                 <div className="flex flex-wrap">
@@ -637,54 +532,7 @@ const RegistrationForm = () => {
                   Decleration
                 </h6>
                 <div className="flex flex-wrap">
-                  <div className="w-full lg:w-6/12 px-4">
-                    <FormField
-                      control={form.control}
-                      name="submissionDate"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-col">
-                          <FormLabel>Submission Date</FormLabel>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <FormControl>
-                                <Button
-                                  variant={"outline"}
-                                  className={cn(
-                                    "w-[240px] pl-3 text-left font-normal",
-                                    !field.value && "text-muted-foreground"
-                                  )}
-                                >
-                                  {field.value ? (
-                                    format(field.value, "PPP")
-                                  ) : (
-                                    <span>Pick a date</span>
-                                  )}
-                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                              </FormControl>
-                            </PopoverTrigger>
-                            <PopoverContent
-                              className="w-auto p-0"
-                              align="start"
-                            >
-                              <Calendar
-                                mode="single"
-                                selected={field.value}
-                                onSelect={field.onChange}
-                                disabled={(date) =>
-                                  date > new Date() ||
-                                  date < new Date("1900-01-01")
-                                }
-                                initialFocus
-                              />
-                            </PopoverContent>
-                          </Popover>
-                          <FormDescription></FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                  <div className="w-full lg:w-6/12 px-4"></div>
                   <div className="w-full lg:w-6/12 px-4">
                     <FormField
                       control={form.control}

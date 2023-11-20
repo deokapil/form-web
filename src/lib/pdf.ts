@@ -211,22 +211,22 @@ export async function generate(candId: number) {
     widths: [100, null, 100, null],
     borderWidth: 0.2,
   });
-  const row5 = table5.row();
-  row5.cell("Registration Fee Details", {
-    ...heading_ty,
-    colspan: 4,
-  });
-  const row5a = table5.row();
-  row5a.cell("Payment Mode", { ...txt_ty });
-  row5a.cell(candidate.registrationMode?.toUpperCase(), { ...txt_ty });
-  row5a.cell("Transaction Id", { ...txt_ty });
-  row5a.cell(candidate.transaction_id?.toUpperCase(), { ...txt_ty });
+  // const row5 = table5.row();
+  // row5.cell("Registration Fee Details", {
+  //   ...heading_ty,
+  //   colspan: 4,
+  // });
+  // const row5a = table5.row();
+  // row5a.cell("Payment Mode", { ...txt_ty });
+  // row5a.cell(candidate.registrationMode?.toUpperCase(), { ...txt_ty });
+  // row5a.cell("Transaction Id", { ...txt_ty });
+  // row5a.cell(candidate.transaction_id?.toUpperCase(), { ...txt_ty });
 
-  const row5b = table5.row();
-  row5b.cell("Amount", { ...txt_ty });
-  row5b.cell(`${candidate.amount}`, { ...txt_ty });
-  row5b.cell("Date of Transaction", { ...txt_ty });
-  row5b.cell(convertDate(candidate.txnDate), { ...txt_ty });
+  // const row5b = table5.row();
+  // row5b.cell("Amount", { ...txt_ty });
+  // row5b.cell(`${candidate.amount}`, { ...txt_ty });
+  // row5b.cell("Date of Transaction", { ...txt_ty });
+  // row5b.cell(convertDate(candidate.txnDate), { ...txt_ty });
 
   const table6 = doc.table({
     widths: [null, null],
@@ -271,9 +271,9 @@ export async function generate(candId: number) {
     borderWidth: 0.2,
   });
   const row7a = table7.row();
-  row7a.cell(`Submission Date: ${convertDate(candidate.submissionDate)}`, {
-    ...txt_ty,
-  });
+  // row7a.cell(`Submission Date: ${convertDate(candidate.submissionDate)}`, {
+  //   ...txt_ty,
+  // });
   row7a.cell(
     `Print Date: ${convertDate(candidate.printDate)} ${generateRandomTime()}`,
     {

@@ -9,7 +9,7 @@ export const registerSchema = z.object({
   motherName: z.string(),
   fatherName: z.string(),
   gender: z.enum(["MALE", "FEMALE", "OTHERS"]),
-  category: z.enum(["GEN", "OBC", "SC", "ST"]),
+  category: z.enum(["GEN", "OBC", "SC", "ST", "MIN"]),
   sub_category: z.string(),
   nationality: z.string(),
   address: z.string(),
@@ -17,15 +17,15 @@ export const registerSchema = z.object({
   state: z.string(),
   pin: z.string(),
   email: z.string().email(),
-  registrationMode: z.string().optional(),
-  transaction_id: z.string().optional(),
-  amount: z
-    .string()
-    .refine((val) => !Number.isNaN(parseInt(val, 10)), {
-      message: "Expected number, received a string",
-    })
-    .optional(),
-  txnDate: z.date().optional(),
+  // registrationMode: z.string().optional(),
+  // transaction_id: z.string().optional(),
+  // amount: z
+  //   .string()
+  //   .refine((val) => !Number.isNaN(parseInt(val, 10)), {
+  //     message: "Expected number, received a string",
+  //   })
+  //   .optional(),
+  // txnDate: z.date().optional(),
   photo: z.string().optional(),
   signature: z.string().optional(),
 
@@ -33,9 +33,9 @@ export const registerSchema = z.object({
     required_error: "A print date is required.",
   }),
 
-  submissionDate: z.date({
-    required_error: "A submission date is required.",
-  }),
+  // submissionDate: z.date({
+  //   required_error: "A submission date is required.",
+  // }),
   hs_board: z.string().optional(),
   hs_year: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
     message: "Please check the value should be Integer",
@@ -105,4 +105,5 @@ export const CATEGORY_CHOICES = [
   { value: "OBC", display: "OTHER BACKWARD CLASS" },
   { value: "SC", display: "SCHEDULED CASTE" },
   { value: "ST", display: "SCHEDULED TRIBE" },
+  { value: "MIN", display: "MINORITY" },
 ];

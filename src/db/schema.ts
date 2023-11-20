@@ -29,7 +29,13 @@ export const users = pgTable("users", {
 });
 
 export const genderEnum = pgEnum("gender", ["MALE", "FEMALE", "OTHERS"]);
-export const categoryEnum = pgEnum("category", ["GEN", "OBC", "SC", "ST"]);
+export const categoryEnum = pgEnum("category", [
+  "GEN",
+  "OBC",
+  "SC",
+  "ST",
+  "MIN",
+]);
 
 export const education = pgTable("education", {
   id: serial("id").primaryKey(),
