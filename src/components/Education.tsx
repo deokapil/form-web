@@ -123,7 +123,7 @@ const Education = ({ prefix }: Props) => {
           name={`${prefix}_percentage`}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Percentage</FormLabel>
+              <FormLabel>Percentage (%)</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>

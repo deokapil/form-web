@@ -90,6 +90,9 @@ const checkPercent = (val: string) => {
   const strVal = parseFloat(val);
   const valsplit = val.split(".");
   let test = true;
+  if (!val.match("^[0-9]*\\.?[0-9]*$")) {
+    return false;
+  }
   if (val.split(".").length > 1 && val.split(".")[1].length > 2) {
     test = false;
   }
