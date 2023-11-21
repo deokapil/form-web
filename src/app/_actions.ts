@@ -112,8 +112,9 @@ export async function saveRegistration(
 
   const insertUserSchema = createInsertSchema(candidates);
   // convert all dated to string
-  const { printDate, ...rest1 } = rest;
+  const { dateOfBirth, printDate, ...rest1 } = rest;
 
+  const dob = parse(dateOfBirth, "dd-MM-yyyy", new Date());
   const college = await getCollegeBySlug(collegeSlug);
   const regNo = await getRegistrationNo(college);
 
@@ -121,6 +122,7 @@ export async function saveRegistration(
   const cand = insertUserSchema.parse({
     registrationNo: regNo,
     printDate: format(printDate, "MM-dd-yyyy"),
+    dateOfBirth: format(dob, "MM-dd-yyyy"),
     collegeId: college.id,
     ...rest1,
     ...hs_id[0],
