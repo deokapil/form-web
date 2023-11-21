@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import { getCollegeBySlug } from "@/lib/qs";
 import { useParams } from "next/navigation";
 import React from "react";
+import { getRegistrationNo } from "../_actions";
 
 type Props = {};
 

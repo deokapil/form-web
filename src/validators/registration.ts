@@ -2,7 +2,6 @@ import { parse, isValid } from "date-fns";
 import { z } from "zod";
 
 export const registerSchema = z.object({
-  registrationNo: z.string(),
   name: z.string().min(2).max(255),
   dateOfBirth: z
     .string()

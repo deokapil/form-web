@@ -9,7 +9,7 @@ import { candidates, education } from "@/db/schema";
 
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { format, parse } from "date-fns";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { generate } from "@/lib/pdf";
 import { getCollegeBySlug } from "@/lib/qs";
 
@@ -115,8 +115,11 @@ export async function saveRegistration(
   const { printDate, ...rest1 } = rest;
 
   const college = await getCollegeBySlug(collegeSlug);
+  const regNo = await getRegistrationNo(college);
+
   const dateFormat = process.env.DB_DATE_STYLE;
   const cand = insertUserSchema.parse({
+    registrationNo: regNo,
     printDate: format(printDate, "MM-dd-yyyy"),
     collegeId: college.id,
     ...rest1,
@@ -139,4 +142,21 @@ export async function generatePDF(candId: string) {
 export async function getCollege(slug: string) {
   const college = await getCollegeBySlug(slug);
   return college;
+}
+
+export async function getRegistrationNo(college: CollegeType) {
+  let bcount = 0;
+  const count = await db
+    .select({
+      count: sql<number>`cast(count(${candidates.id}) as int)`,
+    })
+    .from(candidates)
+    .where(eq(candidates.collegeId, college.id));
+  if (count.length > 0) {
+    bcount = count[0].count;
+  }
+  const regNo = `${college.slug?.toUpperCase()}${bcount
+    .toString()
+    .padStart(3, "0")}`;
+  return regNo;
 }

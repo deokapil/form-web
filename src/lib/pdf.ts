@@ -81,10 +81,10 @@ export async function generate(candId: number) {
   row1.cell("Registration No", { ...txt_ty });
   row1.cell(candidate.registrationNo, {
     ...txt_ty,
-    colspan: 2,
   });
 
-  row1.cell("", { ...txt_ty, backgroundColor: 0xeeeeee });
+  row1.cell("Registration Date", { ...txt_ty });
+  row1.cell(convertDate(candidate.printDate), { ...txt_ty });
 
   const table1 = doc.table({
     widths: [80, null, 80, null],
