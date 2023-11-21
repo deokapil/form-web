@@ -274,12 +274,9 @@ export async function generate(candId: number) {
   // row7a.cell(`Submission Date: ${convertDate(candidate.submissionDate)}`, {
   //   ...txt_ty,
   // });
-  row7a.cell(
-    `Print Date: ${convertDate(candidate.printDate)} ${generateRandomTime()}`,
-    {
-      ...txt_ty,
-    }
-  );
+  row7a.cell(`Print Date: ${convertDate(candidate.printDate)}`, {
+    ...txt_ty,
+  });
 
   const buf = await doc.asBuffer();
   const blob = new Blob([buf], { type: "application/pdf" });
