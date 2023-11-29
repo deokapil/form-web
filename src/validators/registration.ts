@@ -31,9 +31,9 @@ export const registerSchema = z.object({
   photo: z.string().optional(),
   signature: z.string().optional(),
 
-  printDate: z.date({
-    required_error: "A print date is required.",
-  }),
+  // printDate: z.date({
+  //   required_error: "A print date is required.",
+  // }),
 
   // submissionDate: z.date({
   //   required_error: "A submission date is required.",

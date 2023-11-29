@@ -12,6 +12,9 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import { getCandidatesByCollege } from "@/lib/qs";
+import { format, parse } from "date-fns";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 
 type Props = {
   params: {
@@ -20,7 +23,12 @@ type Props = {
 };
 
 const DashboardPage = async ({ params }: Props) => {
+  const session = await getServerSession();
+  if (!session || !session.user) {
+    redirect("/sign-in");
+  }
   const candidateList = await getCandidatesByCollege(params.collegeSlug);
+
   return (
     <Table>
       <TableCaption>College List.</TableCaption>
@@ -28,6 +36,8 @@ const DashboardPage = async ({ params }: Props) => {
         <TableRow>
           <TableHead>Name</TableHead>
           <TableHead>Registration No</TableHead>
+          <TableHead>DOB</TableHead>
+          <TableHead>PrintDate</TableHead>
           <TableHead>PDF</TableHead>
           <TableHead>Generate</TableHead>
         </TableRow>
@@ -37,6 +47,14 @@ const DashboardPage = async ({ params }: Props) => {
           <TableRow key={cand.id}>
             <TableCell className="font-medium">{cand.name}</TableCell>
             <TableCell>{cand.registrationNo}</TableCell>
+            <TableCell>{cand.dateOfBirth}</TableCell>
+            <TableCell>
+              {cand.printDate &&
+                format(
+                  parse(cand.printDate, "yyyy-MM-dd", new Date()),
+                  "dd-MM-yyyy"
+                )}
+            </TableCell>
             <TableCell>
               {cand.fileUrl ? (
                 <Link href={cand.fileUrl}>Download PDF</Link>

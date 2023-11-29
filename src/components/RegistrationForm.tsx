@@ -479,58 +479,31 @@ const RegistrationForm = () => {
                 <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
                   Decleration
                 </h6>
+
                 <div className="flex flex-wrap">
-                  <div className="w-full lg:w-6/12 px-4"></div>
-                  <div className="w-full lg:w-6/12 px-4">
-                    <FormField
-                      control={form.control}
-                      name="printDate"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-col">
-                          <FormLabel>Print Date</FormLabel>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <FormControl>
-                                <Button
-                                  variant={"outline"}
-                                  className={cn(
-                                    "w-[240px] pl-3 text-left font-normal",
-                                    !field.value && "text-muted-foreground"
-                                  )}
-                                >
-                                  {field.value ? (
-                                    format(field.value, "PPP")
-                                  ) : (
-                                    <span>Pick a date</span>
-                                  )}
-                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                              </FormControl>
-                            </PopoverTrigger>
-                            <PopoverContent
-                              className="w-auto p-0"
-                              align="start"
-                            >
-                              <Calendar
-                                mode="single"
-                                selected={field.value}
-                                onSelect={field.onChange}
-                                disabled={(date) =>
-                                  date > new Date() ||
-                                  date < new Date("1900-01-01")
-                                }
-                                initialFocus
-                              />
-                            </PopoverContent>
-                          </Popover>
-                          <FormDescription></FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                  <div className="w-full px-4">
+                    <p>
+                      {" "}
+                      मैं प्रमाणित करता / करती हूँ कि ऑनलाइन रजिस्ट्रेशन में भरी
+                      गयी समस्त प्रविष्टियां मेरे पास उपलब्ध अभिलेखों पर आधारित
+                      हैं एवं मेरे संज्ञान में सही एवं सत्य हैं । रजिस्ट्रेशन
+                      में अपलोड की गयी मेरी फोटो साफ़ , सुस्पष्ट एवं
+                      निर्देशानुसार है । मुझे विज्ञापन की दी गयी समस्त शर्तें
+                      मान्य हैं । यदि चयन के पूर्व अथवा बाद किसी भी स्तर पर
+                      जांचोपरांत ऑनलाइन आवेदन पत्र में अंकित कोई भी विवरण
+                      त्रुटिपूर्ण / असत्य पाया जाता है तो उसका उत्तरदायित्व मेरा
+                      होगा और सम्बंधित अधिकारी को मेरा अभ्यर्थन निरस्त करने तथा
+                      मेरे विरुद्ध वैधानिक कार्यवाही करने का अधिकार होगा । आवेदन
+                      करने की तिथि को मेरे पास आवेदन पत्र में उल्लिखित समस्त अंक
+                      पत्र / प्रमाणपत्र / आरक्षण एवं विशेष आरक्षण सम्बन्धी
+                      प्रमाणपत्र उपलब्ध है । निर्धारित तिथि तक नियत शुल्क जमा
+                      करने पर मेरा ऑनलाइन आवेदन प्रशिक्षण हेतु विचारणीय होगा।
+                      मैंने अपनी फोटो एवं मेरे द्वारा भरे गए (नीचे प्रदर्शित )
+                      विवरण का मिलान मूल अभिलेखों से कर लिया है एवं उन्हें सही
+                      पाया है ।
+                    </p>
                   </div>
                 </div>
-
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
                 <div className="flex flex-wrap">
                   {loading ? (
