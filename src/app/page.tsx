@@ -1,5 +1,5 @@
 import CloudinaryUploadForm from "@/components/CloudinaryUploadForm";
-import { getCollegeList } from "@/lib/qs";
+import { getCollegeList, getCollegeListByAdmin } from "@/lib/qs";
 import Image from "next/image";
 
 import {
@@ -18,7 +18,11 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
-  const collegeList = await getCollegeList();
+  const session = await getServerSession();
+  if (!session || !session.user) {
+    redirect("/sign-in");
+  }
+  const collegeList = await getCollegeListByAdmin(session.user.email);
   const college: CollegeType = {
     name: "Candidate admin",
     id: 0,
@@ -26,10 +30,7 @@ export default async function Home() {
     slug: "",
     collegeUrl: "",
   };
-  const session = await getServerSession();
-  if (!session || !session.user) {
-    redirect("/sign-in");
-  }
+
   return (
     <>
       <Navbar college={college} />

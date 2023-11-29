@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { candidates, colleges } from "@/db/schema";
+import { candidates, colleges, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export const getCollegeList = async () => {
@@ -7,6 +7,23 @@ export const getCollegeList = async () => {
   return collegeList;
 };
 
+export const getCollegeListByAdmin = async (
+  adminEmail: string | undefined | null
+) => {
+  if (!adminEmail) {
+    return [];
+  }
+  const user = await db.query.users.findFirst({
+    where: eq(users.email, adminEmail),
+  });
+  if (!user?.collegeId) {
+    return [];
+  }
+  const collegeList = await db.query.colleges.findMany({
+    where: eq(colleges.id, user?.collegeId),
+  });
+  return collegeList;
+};
 export const getCollegeBySlug = async (slug: string) => {
   const collegeList = await db
     .select()
