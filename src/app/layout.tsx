@@ -6,8 +6,8 @@ import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "GBDC Registration Forms",
-  description: "deled Registration Forms ",
+  title: "Candidate Registration Forms",
+  description: "Deled Registration Forms ",
 };
 
 export default function RootLayout({
