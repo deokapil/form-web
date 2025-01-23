@@ -22,6 +22,20 @@
       "when": 1700502486650,
       "tag": "0002_old_bedlam",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1737428597083,
+      "tag": "0003_whole_devos",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1737517075379,
+      "tag": "0004_dapper_wasp",
+      "breakpoints": true
     }
   ]
 }

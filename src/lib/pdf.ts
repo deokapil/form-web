@@ -79,7 +79,7 @@ export async function generate(candId: number) {
   const row1 = table.row();
 
   row1.cell("Registration No", { ...txt_ty });
-  row1.cell(candidate.registrationNo, {
+  row1.cell(candidate.newReg || "", {
     ...txt_ty,
   });
 

@@ -9,6 +9,7 @@ import {
   serial,
   pgEnum,
   numeric,
+  boolean,
 } from "drizzle-orm/pg-core";
 
 export const colleges = pgTable("colleges", {
@@ -83,6 +84,8 @@ export const candidates = pgTable("candidates", {
   ac_num: text("accoutn_no"),
   collegeId: integer("college_id").references(() => colleges.id),
   fileUrl: text("file_url"),
+  newReg: text("new_reg"),
+  isActive: boolean("is_active").default(true),
 });
 
 export const collegeRelations = relations(colleges, ({ many }) => ({
