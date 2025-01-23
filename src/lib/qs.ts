@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { candidates, colleges, users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 
 export const getCollegeList = async () => {
   const collegeList = await db.query.colleges.findMany();
@@ -38,7 +38,11 @@ export const getCandidatesByCollege = async (collegeSlug: string) => {
   });
   if (college) {
     const candList = await db.query.candidates.findMany({
-      where: eq(candidates.collegeId, college.id),
+      where: and(
+        eq(candidates.collegeId, college.id),
+        eq(candidates.isActive, true)
+      ),
+      orderBy: [desc(candidates.printDate)],
     });
     return candList;
   }

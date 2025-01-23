@@ -46,7 +46,7 @@ const DashboardPage = async ({ params }: Props) => {
         {candidateList.map((cand) => (
           <TableRow key={cand.id}>
             <TableCell className="font-medium">{cand.name}</TableCell>
-            <TableCell>{cand.registrationNo}</TableCell>
+            <TableCell>{cand.newReg}</TableCell>
             <TableCell>{cand.dateOfBirth}</TableCell>
             <TableCell>
               {cand.printDate &&
