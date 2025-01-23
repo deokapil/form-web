@@ -101,7 +101,6 @@ const RegistrationForm = () => {
       gr_rollNo: "",
       gr_total: "",
       gr_year: "",
-      printDate: "",
     },
   });
   // console.log(form.watch());
@@ -505,23 +504,6 @@ const RegistrationForm = () => {
                     </p>
                   </div>
                 </div>
-                <div className="w-full lg:w-6/12 px-4">
-                  <FormField
-                    control={form.control}
-                    name="printDate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Print Date</FormLabel>
-                        <FormControl>
-                          <Input {...field} placeholder="e.g. 12-09-2012" />
-                        </FormControl>
-                        <FormDescription></FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
                 <div className="flex flex-wrap">
                   {loading ? (
