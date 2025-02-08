@@ -112,16 +112,19 @@ export async function saveRegistration(
 
   const insertUserSchema = createInsertSchema(candidates);
   // convert all dated to string
-  const { dateOfBirth, ...rest1 } = rest;
+  // const { dateOfBirth, ...rest1 } = rest;
+  const { dateOfBirth, printDate, ...rest1 } = rest;
 
   const dob = parse(dateOfBirth, "dd-MM-yyyy", new Date());
+  const printd = parse(printDate, "dd-MM-yyyy", new Date());
   const college = await getCollegeBySlug(collegeSlug);
   const regNo = await getRegistrationNo(college);
 
   const dateFormat = process.env.DB_DATE_STYLE;
   const cand = insertUserSchema.parse({
     registrationNo: regNo,
-    printDate: format(new Date(), "MM-dd-yyyy"),
+    // printDate: format(new Date(), "MM-dd-yyyy"),
+    printDate: format(printd, "MM-dd-yyyy"),
     dateOfBirth: format(dob, "MM-dd-yyyy"),
     collegeId: college.id,
     ...rest1,
