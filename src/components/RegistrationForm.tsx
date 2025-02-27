@@ -101,6 +101,7 @@ const RegistrationForm = () => {
       gr_rollNo: "",
       gr_total: "",
       gr_year: "",
+      printDate: "",
     },
   });
   // console.log(form.watch());
@@ -504,7 +505,7 @@ const RegistrationForm = () => {
                     </p>
                   </div>
                 </div>
-                {/* <div className="w-full lg:w-6/12 px-4">
+                 <div className="w-full lg:w-6/12 px-4">
                   <FormField
                     control={form.control}
                     name="printDate"
@@ -519,7 +520,7 @@ const RegistrationForm = () => {
                       </FormItem>
                     )}
                   />
-                </div> */}
+                </div> 
 
                 <hr className="mt-6 border-b-1 border-blueGray-300" />
                 <div className="flex flex-wrap">
