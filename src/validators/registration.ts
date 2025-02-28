@@ -31,12 +31,12 @@ export const registerSchema = z.object({
   photo: z.string().optional(),
   signature: z.string().optional(),
 
-  printDate: z
-    .string()
-    .refine((val) => isValid(parse(val, "dd-MM-yyyy", new Date())), {
-      message: "Correct format is dd-mm-yyyy e.g. 03-05-2011",
-    }),
-  // printDate: z.date({
+  // printDate: z
+  //   .string()
+  //   .refine((val) => isValid(parse(val, "dd-MM-yyyy", new Date())), {
+  //     message: "Correct format is dd-mm-yyyy e.g. 03-05-2011",
+  //   }),
+  // // printDate: z.date({
   //   required_error: "A print date is required.",
   // }),
 
